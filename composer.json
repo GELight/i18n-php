@@ -1,0 +1,27 @@
+{
+  "version": "0.0.1",
+  "name": "gelight/i18n-php",
+  "description": "Internationalization and localization for PHP based on SML",
+  "minimum-stability": "stable",
+  "license": "MIT",
+  "type": "library",
+  "authors": [
+    {
+      "name": "Mario Linz",
+      "email": "gelight@gmx.de",
+      "homepage": "https://github.com/GELight/i18n-php",
+      "role": "Developer"
+    }
+  ],
+  "support": {
+    "email": "gelight@gmx.de"
+  },
+  "autoload": {
+    "psr-4": {
+      "GELight\\": "src/"
+    }
+  },
+  "require": {
+    "stenway/sml": "^0.0.3"
+  }
+}
