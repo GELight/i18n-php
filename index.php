@@ -4,11 +4,9 @@ include_once "vendor/autoload.php";
 
 use GELight\translation\{translation};
 
-$translationInstance = new translation();
-$translationInstance->setCurrentLocale("en_US");
+$i18n = new translation();
+$i18n->setCurrentLocale("de");
+$i18n->loadTranslations(__DIR__."/src/translations");
 
-$translationInstance->loadTranslations(__DIR__."/src/translations");
-
-echo "<pre style='background: #ffc; padding: 1rem; border: 1px dashed #000;'>";
-echo $translationInstance->t("hello");
-echo "</pre>";
+echo $i18n->t("this.is.a.test");
+echo $i18n->t("hello");

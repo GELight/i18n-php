@@ -2,7 +2,7 @@
     de
         hello "Eine schöne tolle super neue Welt."
         books
-            title Bücher
+            title Irgendwas anderes
         end
     end
 end
