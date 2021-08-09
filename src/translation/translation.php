@@ -10,6 +10,7 @@ class translation {
 
     private string $defaultLocale;
     private string $currentLocale;
+    private string|bool $forcedCallbackLocale = false;
     private array $translations = array();
     private string $originalKey;
 
@@ -23,6 +24,10 @@ class translation {
 
     private function prepareAvailableLocales(): void {
         $this->locales = ResourceBundle::getLocales('');
+    }
+
+    private function isValidLocale(string $locale): bool {
+        return in_array($locale, $this->locales);
     }
 
     public function setDefaultLocale(string $locale): translation {
@@ -101,11 +106,22 @@ class translation {
         return $value;
     }
 
+    public function setForcedCallbackLocale(string $locale): translation {
+        $this->forcedCallbackLocale = $this->isValidLocale($locale) ? $locale : $this->getDefaultLocale();
+        return $this;
+    }
+
+    public function getForcedCallbackLocale(): string|bool {
+        return $this->forcedCallbackLocale;
+    }
+
     private function getLocale(): string {
         $locale = $this->currentLocale;
 
         if (isset($this->translations[$locale])) {
             return $locale;
+        } elseif (is_string($this->getForcedCallbackLocale()) && $this->translations[$this->getForcedCallbackLocale()]) {
+            return $this->getForcedCallbackLocale();
         } else {
             if (str_contains($locale, "_")) {
                 $localeCallback = explode("_", $locale)[0];
