@@ -1,0 +1,30 @@
+* {
+    position: relative;
+    box-sizing: border-box;
+}
+
+body {
+    background: #333;
+    color: #fff;
+}
+
+a {
+    color: #fff;
+    border: 1px dashed #666;
+    padding: .4rem 1rem;
+    margin: .4rem;
+}
+
+a:hover {
+    background: #333;
+}
+
+div {
+    padding: .4rem 1rem;
+    border: 1px dashed #666;
+    background: #444;
+}
+
+div ~ div {
+    margin-top: .4rem;
+}

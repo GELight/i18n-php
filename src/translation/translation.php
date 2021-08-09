@@ -16,10 +16,17 @@ class translation {
 
     private array $locales;
 
-    public function __construct() {
+    public function __construct(string $path = null, string $currentLocale = null) {
         $this->prepareAvailableLocales();
         $this->setDefaultLocale("de");
         $this->setCurrentLocale($this->getDefaultLocale());
+
+        if (is_string($path)) {
+            $this->loadTranslations($path);
+        }
+        if (is_string($currentLocale)) {
+            $this->setCurrentLocale($currentLocale);
+        }
     }
 
     private function prepareAvailableLocales(): void {
@@ -77,35 +84,6 @@ class translation {
         return $this;
     }
 
-    public function t(string $key): string {
-        $this->originalKey = $key;
-        $translations = $this->translations[$this->getLocale()];
-
-        return $this->getTranslationValue($key, $translations);
-    }
-
-    private function getTranslationValue(string $key, SmlElement $translations): string {
-        $value = "";
-
-        if (!str_contains($key, ".")) {
-            if ($translations->hasAttribute($key)) {
-                $value = $translations->attribute($key)->getValues()[0];
-            } else {
-                $value = $this->originalKey;
-            }
-        } else {
-            $currentKeys = explode(".", $key);
-            $nextElement = array_shift($currentKeys);
-            $nextKeyName = implode(".", $currentKeys);
-
-            if ($translations->hasElement($nextElement)) {
-                $value = $this->getTranslationValue($nextKeyName, $translations->element($nextElement));
-            }
-        }
-
-        return $value;
-    }
-
     public function setForcedCallbackLocale(string $locale): translation {
         $this->forcedCallbackLocale = $this->isValidLocale($locale) ? $locale : $this->getDefaultLocale();
         return $this;
@@ -113,6 +91,13 @@ class translation {
 
     public function getForcedCallbackLocale(): string|bool {
         return $this->forcedCallbackLocale;
+    }
+
+    public function t(string $key, array $replaceWith = []): string {
+        $this->originalKey = $key;
+        $translations = $this->translations[$this->getLocale()];
+
+        return $this->getTranslationValue($key, $translations, $replaceWith);
     }
 
     private function getLocale(): string {
@@ -136,6 +121,45 @@ class translation {
         }
 
         return $this->defaultLocale;
+    }
+
+    private function getTranslationValue(string $key, SmlElement $translations, array $replaceWith): string {
+        $value = "";
+
+        if (!str_contains($key, ".")) {
+            if ($translations->hasAttribute($key)) {
+                $value = $translations->attribute($key)->getValues()[0];
+                $value = $this->resolvePlaceholder($value, $replaceWith);
+            } else {
+                $value = $this->originalKey;
+            }
+        } else {
+            $currentKeys = explode(".", $key);
+            $nextElement = array_shift($currentKeys);
+            $nextKeyName = implode(".", $currentKeys);
+
+            if ($translations->hasElement($nextElement)) {
+                $value = $this->getTranslationValue($nextKeyName, $translations->element($nextElement), $replaceWith);
+            }
+        }
+
+        return $value;
+    }
+
+    private function resolvePlaceholder(string $translationString, array $replaceWith): string {
+        $resolvedString = $translationString;
+
+        if (count($replaceWith) > 0) {
+            foreach ($replaceWith as $key => $value) {
+                if (str_contains($resolvedString, $key)) {
+                    $resolvedString = str_replace("{".$key."}", $value, $resolvedString);
+                }
+            }
+        } else {
+            $resolvedString = $translationString;
+        }
+
+        return $resolvedString;
     }
 
 }
