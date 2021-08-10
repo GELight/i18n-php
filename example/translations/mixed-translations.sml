@@ -1,32 +1,35 @@
 ﻿Translations
     de
-        HeaderData
-            clerk Sachbearbeiter
-            branch Filiale
-            depot Depot
-            customer Kunde
-            costBearer Kostenstelle
-            notice Bemerkung
+        books
+            book
+                name "William Smith"
+                title "Mein Buchcover"
+                info "Geheimnisse in meinem ersten Startup"
+                ISBN "ISBN {isbn}"
+                color "red"
+            End
         End
-    end
-    en
-        HeaderData
-            clerk Clerk
-            branch Branch
-            depot Depot
-            customer Customer
-            costBearer cost bearer
-            notice Comment
+    End
+    en_GB
+        books
+            book
+                name "William Smith"
+                title "My Book Cover"
+                info "Secrets in my first Startup"
+                ISBN "ISBN {isbn}"
+                color "blue"
+            End
         End
-    end
-    it_IT
-        HeaderData
-            clerk L'ufficiale
-            branch Filiala
-            depot "Il deposito"
-            customer "Il cliente"
-            costBearer "Il portatore di costi"
-            comment Commento
+    End
+    ja_JP
+        books
+            book
+                name "William Smith"
+                title "私の本の表紙"
+                info "私の最初のスタートアップの秘密"
+                ISBN "ISBN {isbn}"
+                color "orange"
+            End
         End
-    end
-end
+    End
+End
