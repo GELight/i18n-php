@@ -13,9 +13,9 @@
 
     include_once "vendor/autoload.php";
 
-    use GELight\translation\{translation};
+    use GELight\smlI18n\{smlI18n};
 
-    $i18n = new translation(__DIR__."/example/translations", htmlspecialchars($_GET["l"]));
+    $i18n = new smlI18n(__DIR__."/example/translations", htmlspecialchars($_GET["l"]));
 
     echo "<div class='book book-{$i18n->t("books.book.color")}'>";
         echo "<div class='info'>{$i18n->t("books.book.info")}</div>";

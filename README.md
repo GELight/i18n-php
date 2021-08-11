@@ -48,14 +48,14 @@ Internationalization for PHP based on SML ([Simple Markup Language](https://dev.
 
 include_once "vendor/autoload.php";
 
-use GELight\translation\{translation};
+use GELight\smlI18n\{smlI18n};
 
-$i18n = new translation();
+$i18n = new smlI18n();
 $i18n->loadTranslations(__DIR__."/translations");
 $i18n->setCurrentLocale("en");
 
 # You can use also the short notation of the most important properties in the same example
-$i18n = new translation(__DIR__."/translations", "en");
+$i18n = new smlI18n(__DIR__."/translations", "en");
 
 # The method t() returns the corresponding translation
 echo $i18n->t("sml.title");
@@ -76,14 +76,14 @@ The Simple Markup Language is an easy and fast to type markup language. It only 
 Loads all SML files with the correspondingly defined translations.
 The translations can then be fetched using the **$i18n->t()** method.
 
-> loadTranslations(string $path): translation
+> loadTranslations(string $path): smlI18n
 
 ```php
-$i18n = new translation();
+$i18n = new smlI18n();
 $i18n->loadTranslations("path/to/your/translations/folder");
 
 # Short notation by using the first constructor parameter
-$i18n = new translation("path/to/your/translations/folder");
+$i18n = new smlI18n("path/to/your/translations/folder");
 ```
 
 ### getDefaultLocale()
@@ -99,7 +99,7 @@ echo $i18n->getDefaultLocale(); // result for example > "en"
 Set the default locale.
 The default locale is used as the last possible callback when translations of a language are not available.
 
-> setDefaultLocale(string $locale): translation
+> setDefaultLocale(string $locale): smlI18n
 
 ```php
 $i18n->setDefaultLocale("en");  // Standard default locale is "de"
@@ -127,7 +127,7 @@ echo $i18n->getCurrentLocale(); // result for example > "en"
 ### setCurrentLocale()
 Set the current locale.
 
-> setCurrentLocale(string $locale): translation
+> setCurrentLocale(string $locale): smlI18n
 
 ```php
 $i18n->setCurrentLocale("en_US");
@@ -143,7 +143,7 @@ Defines a forced callback locale when translations of a language are not availab
 > 2. en
 > 3. de
 
-> setForcedCallbackLocale(string $locale): translation
+> setForcedCallbackLocale(string $locale): smlI18n
 
 ```php
 $i18n->setForcedCallbackLocale("de");

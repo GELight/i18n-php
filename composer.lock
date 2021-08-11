@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "dba33a6396a004d3b58467669bf99776",
+    "content-hash": "3370d8306c192bbb9b99edad2a1e159b",
     "packages": [
         {
             "name": "stenway/reliabletxt",

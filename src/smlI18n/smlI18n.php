@@ -1,12 +1,12 @@
 <?php
 
-namespace GELight\translation;
+namespace GELight\smlI18n;
 
 use Stenway\Sml\{SmlDocument, SmlElement};
 use \ResourceBundle;
 use \Exception;
 
-class translation {
+class smlI18n {
 
     private string $defaultLocale;
     private string $currentLocale;
@@ -37,7 +37,7 @@ class translation {
         return in_array($locale, $this->locales);
     }
 
-    public function setDefaultLocale(string $locale): translation {
+    public function setDefaultLocale(string $locale): smlI18n {
         if (in_array($locale, $this->locales)) {
             $this->defaultLocale = $locale;
         } else {
@@ -52,7 +52,7 @@ class translation {
         return $this->defaultLocale;
     }
 
-    public function setCurrentLocale(string $locale): translation {
+    public function setCurrentLocale(string $locale): smlI18n {
         if (in_array($locale, $this->locales)) {
             $this->currentLocale = $locale;
         } else {
@@ -67,7 +67,7 @@ class translation {
         return $this->currentLocale;
     }
 
-    public function loadTranslations(string $path): translation {
+    public function loadTranslations(string $path): smlI18n {
         if ($handle = opendir($path)) {
             while (false !== ($entry = readdir($handle))) {
                 $ext = pathinfo($entry, PATHINFO_EXTENSION);
@@ -84,7 +84,7 @@ class translation {
         return $this;
     }
 
-    public function setForcedCallbackLocale(string $locale): translation {
+    public function setForcedCallbackLocale(string $locale): smlI18n {
         $this->forcedCallbackLocale = $this->isValidLocale($locale) ? $locale : $this->getDefaultLocale();
         return $this;
     }
