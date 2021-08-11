@@ -2,172 +2,6 @@
 
 Internationalization for PHP based on SML ([Simple Markup Language](https://dev.stenway.com/SML/PHP.html))
 
-## Using
-
-* Create a folder **translations/**.
-* Create a new file **[translations.sml](https://dev.stenway.com/SML/Specification.html)** file inside the **translations/** directory with all your translations:
-
-*Example: **translations/translations.sml***
-```shell
-Translations
-    de
-        books
-            book
-                name "William Smith"
-                title "Mein Buchcover"
-                info "Geheimnisse in meinem ersten Startup"
-                ISBN "ISBN {isbn}"
-                color "red"
-            End
-        End
-    End
-    en_GB
-        books
-            book
-                name "William Smith"
-                title "My Book Cover"
-                info "Secrets in my first Startup"
-                ISBN "ISBN {isbn}"
-                color "blue"
-            End
-        End
-    End
-    ja_JP
-        books
-            book
-                name "William Smith"
-                title "私の本の表紙"
-                info "私の最初のスタートアップの秘密"
-                ISBN "ISBN {isbn}"
-                color "orange"
-            End
-        End
-    End
-End
-```
-
-* Add this code in your index.php:
-
-```php
-<html>
-<head>
-    <title>Internationalization with SML</title>
-    <link href="css/styles.css" type="text/css" rel="stylesheet" />
-</head>
-<body>
-    <div>
-        <a href="http://localhost:7000/?l=de">DE</a>
-        <a href="http://localhost:7000/?l=en_GB">EN</a>
-        <a href="http://localhost:7000/?l=ja_JP">JP</a>
-    </div>
-    
-    <?php
-    
-    include_once "vendor/autoload.php";
-
-    use GELight\translation\{translation};
-
-    $i18n = new translation(__DIR__."/translations", htmlspecialchars($_GET["l"]));
-
-    echo "<div class='book book-{$i18n->t("books.book.color")}'>";
-        echo "<div class='info'>{$i18n->t("books.book.info")}</div>";
-        echo "<div class='title'>{$i18n->t("books.book.title")}</div>";
-        echo "<div class='name'>{$i18n->t("books.book.name")}</div>";
-        echo "<div class='isbn'>{$i18n->t("books.book.ISBN", [ "isbn" => "978-3-86680-192-9" ])}</div>";
-    echo "</div>";
-
-    ?>
-    
-</body>
-</html>
-```
-
-* Add this CSS into new file in **css/styles.css**:
-
-```css
-@import url('https://fonts.googleapis.com/css2?family=Anton&family=Roboto:wght@700&display=swap');
-
-* {
-    position: relative;
-    box-sizing: border-box;
-}
-
-body {
-    background: #333;
-    color: #fff;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-nav {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 2rem;
-}
-
-.book {
-    background: #fff;
-    color: #000;
-    border: 1px solid #333;
-    padding: 1rem;
-    width: 20rem;
-    height: 30rem;
-    box-shadow: 1rem 1rem 1.4rem 0 #000;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    font-family: Anton;
-    border-radius: .5rem;
-}
-
-.book .info {
-    font-size: 15px;
-    color: #fff;
-    text-align: center;
-}
-.book .title {
-    text-align: center;
-    font-size: 60px;
-    font-weight: 700;
-    margin-bottom: 6rem;
-    text-shadow: 0.1rem 0.1rem 0.2rem #fff;
-}
-.book .isbn {
-    font-size: 10px;
-    font-weight: 400;
-}
-.book .name {
-    font-size: 30px;
-    color: #fff;
-}
-
-.book-red { background: #ce3737; }
-.book-blue { background: #6363ff; }
-.book-orange { background: #f7823e; }
-
-a {
-    color: #fff;
-    border: 1px dashed #333;
-    padding: .4rem 1rem;
-    margin: .4rem;
-}
-
-a:hover {
-    background: #111;
-}
-```
-
-* Start terminal and open your project folder
-* Start your PHP server 
-```shell
-php -S localhost:7000
-```
-* Open your project URL http://localhost:7000/?l=ja_JP
-
 ## What is SML?
 
 > [Video - Using SML in PHP](https://dev.stenway.com/SML/PHP.html)
@@ -180,3 +14,181 @@ php -S localhost:7000
 
 > [Video - SML Explained](https://www.youtube.com/watch?v=fBzMdzMtH-s&t=221s)
 
+## Using
+
+> [Example - How can I use this lib?](Example.md)
+
+## Example
+
+```shell
+    Translations
+        de
+            sml
+                welcome "Willkommen in der Welt von SML mit sml-i18n-for-php"
+                description "Die Simple Markup Language ist eine einfach und schnell zu schreibende Auszeichnungssprache. Es verwendet nur einen minimalen Satz von Sonderzeichen und fühlt sich daher sehr natürlich an. Es ist zeilenbasiert, und wenn Sie eine Touch-Schreibkraft sind, werden Sie es lieben."
+            End
+        End
+        en_GB
+            sml
+                welcome "Welcome to SML using sml-i18n-for-php"
+                description "The Simple Markup Language is an easy and fast to type markup language. It only uses a minimal set of special characters and therefor feels very natural. It is line-based, and if you are a touch typist you will love it."
+            End
+        End
+        ja_JP
+            sml
+                welcome "sml-i18n-for-phpを使用したSMLへようこそ"
+                description "Simple Markup Languageは、簡単かつ迅速に入力できるマークアップ言語です。最小限の特殊文字セットのみを使用しているため、非常に自然な感じがします。それはラインベースであり、あなたがタッチタイピストならあなたはそれを気に入るはずです。"
+            End
+        End
+    End
+```
+
+```php
+<?php
+
+include_once "vendor/autoload.php";
+
+use GELight\translation\{translation};
+
+$i18n = new translation();
+$i18n->loadTranslations(__DIR__."/translations");
+$i18n->setCurrentLocale("en");
+
+# You can use also the short notation of the most important properties in the same example
+$i18n = new translation(__DIR__."/translations", "en");
+
+# The method t() returns the corresponding translation
+echo $i18n->t("sml.title");
+echo $i18n->t("sml.description");
+```
+
+Result:
+
+```shell
+Welcome to SML using sml-i18n-for-php
+
+The Simple Markup Language is an easy and fast to type markup language. It only uses a minimal set of special characters and therefor feels very natural. It is line-based, and if you are a touch typist you will love it.
+```
+
+## Documentation
+
+### loadTranslations()
+Loads all SML files with the correspondingly defined translations.
+The translations can then be fetched using the **$i18n->t()** method.
+
+> loadTranslations(string $path): translation
+
+```php
+$i18n = new translation();
+$i18n->loadTranslations("path/to/your/translations/folder");
+
+# Short notation by using the first constructor parameter
+$i18n = new translation("path/to/your/translations/folder");
+```
+
+### getDefaultLocale()
+Returns the default locale.
+
+> getDefaultLocale(): string
+
+```php
+echo $i18n->getDefaultLocale(); // result for example > "en"
+```
+
+### setDefaultLocale()
+Set the default locale.
+The default locale is used as the last possible callback when translations of a language are not available.
+
+> setDefaultLocale(string $locale): translation
+
+```php
+$i18n->setDefaultLocale("en");  // Standard default locale is "de"
+```
+
+### isValidLocale()
+Checks that the specified locale is valid.
+
+> isValidLocale(string $locale): bool
+
+```php
+echo $i18n->isValidLocale("en_US"); // true
+echo $i18n->isValidLocale("ab_CD"); // false
+```
+
+### getCurrentLocale()
+Returns the defined current locale.
+
+> getCurrentLocale(): string
+
+```php
+echo $i18n->getCurrentLocale(); // result for example > "en"
+```
+
+### setCurrentLocale()
+Set the current locale.
+
+> setCurrentLocale(string $locale): translation
+
+```php
+$i18n->setCurrentLocale("en_US");
+```
+
+### setForcedCallbackLocale()
+Defines a forced callback locale when translations of a language are not available.
+
+> Standard behavior for locale callbacks when:
+> * default language is - **de**
+> * current locale is - **en_US**
+> 1. en_US
+> 2. en
+> 3. de
+
+> setForcedCallbackLocale(string $locale): translation
+
+```php
+$i18n->setForcedCallbackLocale("de");
+```
+
+### getForcedCallbackLocale()
+Returns the defined forced callback locale.
+If not defined a forced callback locale the method will return "false".
+
+> getForcedCallbackLocale(): string|bool
+
+```php
+echo $i18n->getForcedCallbackLocale();  // result for example > "en"
+```
+
+### t()
+Returns the related translation value according to the specified key.
+
+> t(string $key, array $replaceWith = []): string
+
+```php
+echo $i18n->t("sml.welcome");
+echo $i18n->t("sml.description");
+```
+
+Using translation placeholders:
+
+
+```shell
+    Translations
+        de
+            today
+              is Heute ist {weekday}
+            End
+        End
+        en
+            today
+              is Today is {weekday}
+            End
+        End
+    End
+```
+
+```php
+$i18n->setCurrentLocale("en");
+echo $i18n->t("today.is", [ "weekday" => date("l") ]);
+// Result example > "Today is monday"
+```

@@ -33,7 +33,7 @@ class translation {
         $this->locales = ResourceBundle::getLocales('');
     }
 
-    private function isValidLocale(string $locale): bool {
+    public function isValidLocale(string $locale): bool {
         return in_array($locale, $this->locales);
     }
 
