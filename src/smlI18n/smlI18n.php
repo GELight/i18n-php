@@ -129,7 +129,7 @@ class smlI18n {
         if (!str_contains($key, ".")) {
             if ($translations->hasAttribute($key)) {
                 $value = $translations->attribute($key)->getValues()[0];
-                $value = $this->resolvePlaceholder($value, $replaceWith);
+                $value = $this->resolvePlaceholdersInTranslation($value, $replaceWith);
             } else {
                 $value = $this->originalKey;
             }
@@ -146,20 +146,27 @@ class smlI18n {
         return $value;
     }
 
-    private function resolvePlaceholder(string $translationString, array $replaceWith): string {
+    private function resolvePlaceholdersInTranslation(string $translationString, array $replaceWith): string {
         $resolvedString = $translationString;
 
-        if (count($replaceWith) > 0) {
-            foreach ($replaceWith as $key => $value) {
-                if (str_contains($resolvedString, $key)) {
-                    $resolvedString = str_replace("{".$key."}", $value, $resolvedString);
+        preg_match_all("|{(.*)}|U", $resolvedString, $results, PREG_SET_ORDER);
+
+        if (count($results) > 0) {
+            foreach ($results as $placeholder) {
+                if (isset($replaceWith[$placeholder[1]])) {
+                    $resolvedString = $this->replacePlaceholder($placeholder[0], $replaceWith[$placeholder[1]], $resolvedString);
+                } else {
+                    $value = $this->getTranslationValue($placeholder[1], $this->translations[$this->getLocale()], $replaceWith);
+                    $resolvedString = $this->replacePlaceholder($placeholder[0], $value, $resolvedString);
                 }
             }
-        } else {
-            $resolvedString = $translationString;
         }
 
         return $resolvedString;
+    }
+
+    private function replacePlaceholder(string $placeholder, string $value, string $translation): string {
+        return str_replace($placeholder, $value, $translation);
     }
 
 }
