@@ -1,5 +1,4 @@
 {
-  "version": "1.1.0",
   "name": "gelight/sml-i18n-for-php",
   "description": "Internationalization and localization for PHP based on SML",
   "minimum-stability": "stable",

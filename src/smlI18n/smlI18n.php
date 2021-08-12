@@ -5,6 +5,7 @@ namespace GELight\smlI18n;
 use Stenway\Sml\{SmlDocument, SmlElement};
 use \ResourceBundle;
 use \Exception;
+use \NumberFormatter;
 
 class smlI18n {
 
@@ -12,12 +13,14 @@ class smlI18n {
     private string $currentLocale;
     private string|bool $forcedCallbackLocale = false;
     private array $translations = array();
+    private array $timeZones = array();
     private string $originalKey;
 
     private array $locales;
 
     public function __construct(string $path = null, string $currentLocale = null) {
         $this->prepareAvailableLocales();
+        $this->prepareAvailableTimeZones();
         $this->setDefaultLocale("de");
         $this->setCurrentLocale($this->getDefaultLocale());
 
@@ -31,6 +34,10 @@ class smlI18n {
 
     private function prepareAvailableLocales(): void {
         $this->locales = ResourceBundle::getLocales('');
+    }
+
+    private function prepareAvailableTimeZones(): void {
+        $this->timeZones = timezone_identifiers_list();
     }
 
     public function isValidLocale(string $locale): bool {
@@ -94,7 +101,6 @@ class smlI18n {
     }
 
     public function t(string $key, array $replaceWith = []): string {
-        $this->originalKey = $key;
         $translations = $this->translations[$this->getLocale()];
 
         return $this->getTranslationValue($key, $translations, $replaceWith);
@@ -117,7 +123,7 @@ class smlI18n {
         }
 
         if (!isset($this->translations[$this->defaultLocale])) {
-            throw new Exception("No translations defined for '".$this->defaultLocale."'");
+            die("No translations defined for '".$this->defaultLocale."'");
         }
 
         return $this->defaultLocale;
@@ -130,8 +136,6 @@ class smlI18n {
             if ($translations->hasAttribute($key)) {
                 $value = $translations->attribute($key)->getValues()[0];
                 $value = $this->resolvePlaceholdersInTranslation($value, $replaceWith);
-            } else {
-                $value = $this->originalKey;
             }
         } else {
             $currentKeys = explode(".", $key);

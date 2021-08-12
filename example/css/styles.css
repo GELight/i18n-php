@@ -57,6 +57,11 @@ nav {
     font-size: 30px;
     color: #fff;
 }
+.book .name {
+    font-size: 30px;
+    color: #fff;
+    margin-top: 2rem;
+}
 
 .book-red { background: #ce3737; }
 .book-blue { background: #6363ff; }

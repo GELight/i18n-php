@@ -7,6 +7,7 @@
                 info "Geheimnisse in meinem ersten Startup"
                 ISBN "ISBN {isbn}"
                 color "red"
+                price {price}
             End
         End
     End
@@ -18,6 +19,7 @@
                 info "Secrets in my first Startup"
                 ISBN "ISBN {isbn}"
                 color "blue"
+                price 16,94
             End
         End
     End
@@ -29,6 +31,7 @@
                 info "私の最初のスタートアップの秘密"
                 ISBN "ISBN {isbn}"
                 color "orange"
+                price 2590,85
             End
         End
     End
